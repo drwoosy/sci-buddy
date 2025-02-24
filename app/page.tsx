@@ -206,8 +206,21 @@ export default function Page() {
     resetUI();
     
     if (isBonusQuestion && currentQuestion && currentQuestion.bonus) {
-      setCurrentQuestion(currentQuestion.bonus);
-      presentQuestion(currentQuestion.bonus);
+      // Create a proper MappedQuestion object from the bonus
+      const bonusQuestion: MappedQuestion = {
+        type: "toss-up",
+        subject: currentQuestion.bonus.subject,
+        question: currentQuestion.bonus.question,
+        answer: currentQuestion.bonus.answer,
+        bonus: {
+          type: "toss-up",
+          subject: currentQuestion.bonus.subject,
+          question: currentQuestion.bonus.question,
+          answer: currentQuestion.bonus.answer
+        }
+      };
+      setCurrentQuestion(bonusQuestion);
+      presentQuestion(bonusQuestion);
     } else {
       if (rawQuestions.length === 0) {
         setStatus("No questions loaded.");
