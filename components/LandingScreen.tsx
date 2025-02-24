@@ -21,7 +21,7 @@ export function LandingScreen({ onComplete, isLoading = false }: LandingScreenPr
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 2 }}
-          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4 dark:text-white"
+          className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 dark:text-white"
         >
           scibuddy.
         </motion.h1>
@@ -30,7 +30,7 @@ export function LandingScreen({ onComplete, isLoading = false }: LandingScreenPr
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.6 }}
           transition={{ delay: 2, duration: 2 }}
-          className="text-lg sm:text-xl md:text-2xl dark:text-white"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl dark:text-white"
         >
           a science bowl study app
         </motion.p>
@@ -39,7 +39,7 @@ export function LandingScreen({ onComplete, isLoading = false }: LandingScreenPr
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 4, duration: 1.5 }}
-          className="mt-8 sm:mt-12"
+          className="mt-6 sm:mt-8 md:mt-10"
         >
           <button
             onClick={onComplete}
@@ -47,7 +47,7 @@ export function LandingScreen({ onComplete, isLoading = false }: LandingScreenPr
             disabled={isLoading}
           >
             <ArrowDown 
-              className={`w-8 h-8 sm:w-12 sm:h-12 dark:text-white ${isLoading ? 'opacity-50' : 'animate-bounce'}`}
+              className={`w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 dark:text-white ${isLoading ? 'opacity-50' : 'animate-bounce'}`}
             />
           </button>
         </motion.div>
