@@ -427,258 +427,271 @@ export default function Page() {
         initial={{ y: '100%', opacity: 0 }}
         animate={{ y: showContent ? 0 : '100%', opacity: showContent ? 1 : 0 }}
         transition={{ duration: 1.0, ease: "easeInOut" }}
-        className="fixed inset-0 overflow-y-auto bg-white dark:bg-black"
+        className="fixed inset-0 bg-white dark:bg-black flex flex-col"
       >
-        <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
-          <DialogTrigger asChild>
-            <Button 
-              variant="outline" 
-              className="fixed top-6 right-6 z-50 transition-all duration-300 hover:bg-gray-700 hover:text-white active:bg-gray-800"
-            >
-              Log In / Register
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-900 z-[100] rounded-xl overflow-hidden">
-            <DialogTitle className="sr-only">Authentication</DialogTitle>
-            <Card className="border-none shadow-none">
-              <CardHeader>
-                <CardTitle>{isLogin ? "Login" : "Create Account"}</CardTitle>
-                <CardDescription>
-                  {isLogin ? "Enter your credentials to log in." : "Fill in your details to create an account."}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue={isLogin ? "login" : "register"} onValueChange={(value) => setIsLogin(value === "login")}>
-                  <TabsList className="grid w-full grid-cols-2 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
-                    <TabsTrigger 
-                      value="login" 
-                      className="transition-all duration-300 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:text-black dark:data-[state=active]:text-white data-[state=active]:shadow-sm rounded-md"
-                    >
-                      Login
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="register" 
-                      className="transition-all duration-300 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:text-black dark:data-[state=active]:text-white data-[state=active]:shadow-sm rounded-md"
-                    >
-                      Register
-                    </TabsTrigger>
-                  </TabsList>
-                  <AnimatePresence mode="wait">
-                    {isLogin ? (
-                      <motion.div
-                        key="login"
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        exit={{ x: 20, opacity: 0 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                      >
-                        <LoginForm />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="register"
-                        initial={{ x: 20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        exit={{ x: -20, opacity: 0 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                      >
-                        <RegisterForm />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </Tabs>
-              </CardContent>
-            </Card>
-          </DialogContent>
-        </Dialog>
+        {/* Fixed Header */}
+        <div className="fixed top-0 left-0 right-0 h-20 bg-white dark:bg-black z-50 flex items-center justify-between px-6 border-b dark:border-gray-800">
+          <a 
+            href="https://github.com/drwoosy/Scibowl-Study" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-3xl sm:text-5xl font-semibold dark:text-white transition-all duration-300 hover:opacity-80"
+          >
+            scibuddy
+          </a>
+          
+          <Button 
+            variant="outline" 
+            onClick={() => setIsLoginOpen(true)}
+            className="transition-all duration-300 hover:bg-gray-700 hover:text-white active:bg-gray-800"
+          >
+            Log In
+          </Button>
+        </div>
 
-        <ContextMenu>
-          <ContextMenuTrigger className="h-full w-full">
-            <div className="mx-auto p-4 text-center min-h-screen flex flex-col">
-              {/* Top logo */}
-              <a 
-                href="https://github.com/drwoosy/Scibowl-Study" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="fixed top-6 left-6 text-5xl font-semibold dark:text-white transition-all duration-300 hover:translate-x-2 hover:opacity-80"
-              >
-                scibuddy
-              </a>
-
-              {/* Timer Section - Moves up when game starts */}
-              <motion.div 
-                className="flex flex-col items-center"
-                animate={{ 
-                  marginTop: gameStarted ? "2rem" : "10rem"
-                }}
-                transition={{ duration: 0.5 }}
-              >
-                <motion.p 
-                  className="text-7xl font-mono font-bold tracking-wider"
-                  animate={{ scale: countdown && countdown <= 1 ? [1, 1.1, 1] : 1 }}
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto pt-20">
+          <ContextMenu>
+            <ContextMenuTrigger className="min-h-full w-full">
+              <div className="mx-auto p-4 text-center flex flex-col">
+                {/* Timer Section */}
+                <motion.div 
+                  className="flex flex-col items-center"
+                  animate={{ 
+                    marginTop: gameStarted ? "2rem" : "4rem"
+                  }}
                   transition={{ duration: 0.5 }}
                 >
-                  {formatTime(countdown)}
-                </motion.p>
-              </motion.div>
-
-              {/* Game Controls */}
-              <div className="flex flex-col items-center gap-6 mt-6 w-full max-w-xs mx-auto">
-                {!gameStarted && <SubjectSelector onSubjectsChange={handleSubjectsChange} />}
-                
-                {/* Question Area */}
-                {gameStarted && !isTransitioning && (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="w-full max-w-2xl mx-auto"
+                  <motion.p 
+                    className="text-7xl font-mono font-bold tracking-wider"
+                    animate={{ scale: countdown && countdown <= 1 ? [1, 1.1, 1] : 1 }}
+                    transition={{ duration: 0.5 }}
                   >
-                    {questionType === "multiple" ? (
-                      <motion.div 
-                        key="multiple"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="grid grid-cols-2 gap-4 mb-32"
-                      >
-                        {['W', 'X', 'Y', 'Z'].map((letter) => (
-                          <button
-                            key={letter}
-                            onClick={() => handleMultipleChoice(letter)}
-                            className={`${
-                              selectedOption === letter 
-                                ? mcqResult === "correct"
-                                  ? "bg-green-500"
-                                  : mcqResult === "incorrect"
-                                    ? "bg-red-500"
-                                    : "bg-gray-700"
-                                : "bg-gray-700"
-                            } w-full aspect-square rounded-lg text-4xl font-bold text-white 
-                            transition-colors duration-150 hover:bg-gray-600 active:bg-gray-800
-                            flex items-center justify-center`}
-                          >
-                            {letter}
-                          </button>
-                        ))}
-                      </motion.div>
-                    ) : questionType === "short" ? (
-                      <motion.div 
-                        key="short"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="max-w-md mx-auto w-full"
-                      >
-                        <input
-                          type="text"
-                          value={tossUpAnswer}
-                          onChange={(e) => setTossUpAnswer(e.target.value)}
-                          onKeyDown={(e) => e.key === 'Enter' && submitTossUp()}
-                          className="w-full p-2 rounded border dark:bg-gray-800 dark:text-white"
-                          placeholder="Type your answer..."
-                          autoFocus
-                        />
-                        <Button 
-                          onClick={submitTossUp}
-                          className="mt-2 w-full"
-                        >
-                          Submit
-                        </Button>
-                      </motion.div>
-                    ) : null}
-                  </motion.div>
-                )}
-
-                {/* Game Buttons */}
-                <motion.div 
-                  className="w-full flex flex-col gap-4"
-                  animate={{ 
-                    marginTop: gameStarted ? (questionType === "multiple" ? "-8rem" : "2rem") : "0"
-                  }}
-                >
-                  <Button 
-                    onClick={buzzIn}
-                    className="w-full transition-all duration-300 hover:bg-gray-700 hover:text-white active:bg-gray-800"
-                  >
-                    Buzz In
-                  </Button>
-                  <Button 
-                    onClick={startGame}
-                    className="w-full transition-all duration-300 hover:scale-105 hover:bg-gray-700 hover:text-white active:bg-gray-800"
-                  >
-                    {gameStarted ? "Next Question" : "Start Game"}
-                  </Button>
+                    {formatTime(countdown)}
+                  </motion.p>
                 </motion.div>
-              </div>
 
-              {/* Stats section - lower portion */}
-              <div className="flex flex-col items-center mt-auto mb-16 gap-4">
-                <div className="text-lg">
-                  {status && <p>{status}</p>}
-                </div>
-                <div className="text-lg">
-                  <p>Opponent Score: {opponentScore}</p>
-                </div>
-              </div>
+                {/* Game Controls */}
+                <div className="flex flex-col items-center gap-6 mt-6 w-full max-w-xs mx-auto">
+                  {!gameStarted && <SubjectSelector onSubjectsChange={handleSubjectsChange} />}
+                  
+                  {/* Question Area */}
+                  {gameStarted && !isTransitioning && (
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="w-full max-w-2xl mx-auto"
+                    >
+                      {questionType === "multiple" ? (
+                        <motion.div 
+                          key="multiple"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="grid grid-cols-2 gap-4 mb-32"
+                        >
+                          {['W', 'X', 'Y', 'Z'].map((letter) => (
+                            <button
+                              key={letter}
+                              onClick={() => handleMultipleChoice(letter)}
+                              className={`${
+                                selectedOption === letter 
+                                  ? mcqResult === "correct"
+                                    ? "bg-green-500"
+                                    : mcqResult === "incorrect"
+                                      ? "bg-red-500"
+                                      : "bg-gray-700"
+                                  : "bg-gray-700"
+                              } w-full aspect-square rounded-lg text-4xl font-bold text-white 
+                              transition-colors duration-150 hover:bg-gray-600 active:bg-gray-800
+                              flex items-center justify-center`}
+                            >
+                              {letter}
+                            </button>
+                          ))}
+                        </motion.div>
+                      ) : questionType === "short" ? (
+                        <motion.div 
+                          key="short"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="max-w-md mx-auto w-full"
+                        >
+                          <input
+                            type="text"
+                            value={tossUpAnswer}
+                            onChange={(e) => setTossUpAnswer(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && submitTossUp()}
+                            className="w-full p-2 rounded border dark:bg-gray-800 dark:text-white"
+                            placeholder="Type your answer..."
+                            autoFocus
+                          />
+                          <Button 
+                            onClick={submitTossUp}
+                            className="mt-2 w-full"
+                          >
+                            Submit
+                          </Button>
+                        </motion.div>
+                      ) : null}
+                    </motion.div>
+                  )}
 
-              {/* Add Hover Card to bottom left corner */}
-              <div className="fixed bottom-8 left-4 dark:text-white">
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <Button variant="link" className="text-lg">@drwsy</Button>
-                  </HoverCardTrigger>
-                  <HoverCardContent 
-                    className="w-80 border-2 border-black/30 dark:border-white/30 rounded-lg !important"
-                    align="start"
-                    sideOffset={10}
-                    style={{ borderRadius: '0.5rem' }}
+                  {/* Game Buttons */}
+                  <motion.div 
+                    className="w-full flex flex-col gap-4"
+                    animate={{ 
+                      marginTop: gameStarted ? (questionType === "multiple" ? "-8rem" : "2rem") : "0"
+                    }}
                   >
-                    <div className="flex justify-between space-x-4">
-                      <Avatar className="rounded-none w-16 h-16 top-3">
-                        <AvatarImage src="https://avatars.githubusercontent.com/u/170767427?s=400&u=9ce63ad143bed5730a77f010c2dcf61a4c317082&v=4" />
-                        <AvatarFallback>ZI</AvatarFallback>
-                      </Avatar>
-                      <div className="space-y-1">
-                        <h4 className="text-sm font-semibold dark:text-white">@drwsy</h4>
-                        <p className="text-sm dark:text-white">
-                          scibowl study app – created and maintained by @zxyanislam.
-                        </p>
-                        <div className="flex items-center pt-2">
-                          <CalendarIcon className="mr-2 h-4 w-4 opacity-70 dark:text-white" />{" "}
-                          <span className="text-xs text-muted-foreground dark:text-white">
-                            Updated February 2024
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </HoverCardContent>
-                </HoverCard>
+                    <Button 
+                      onClick={buzzIn}
+                      className="w-full transition-all duration-300 hover:bg-gray-700 hover:text-white active:bg-gray-800"
+                    >
+                      Buzz In
+                    </Button>
+                    <Button 
+                      onClick={startGame}
+                      className="w-full transition-all duration-300 hover:scale-105 hover:bg-gray-700 hover:text-white active:bg-gray-800"
+                    >
+                      {gameStarted ? "Next Question" : "Start Game"}
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Stats section - lower portion */}
+                <div className="flex flex-col items-center mt-auto mb-16 gap-4">
+                  <div className="text-lg">
+                    {status && <p>{status}</p>}
+                  </div>
+                  <div className="text-lg">
+                    <p>Opponent Score: {opponentScore}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </ContextMenuTrigger>
-          <ContextMenuContent className="w-64 bg-white dark:bg-gray-900 border-2">
-            <ContextMenuRadioGroup value={selectedSet} onValueChange={setSelectedSet}>
-              <ContextMenuLabel inset>Question Bank</ContextMenuLabel>
+            </ContextMenuTrigger>
+            <ContextMenuContent className="w-64 bg-white dark:bg-gray-900 border-2">
+              <ContextMenuRadioGroup value={selectedSet} onValueChange={setSelectedSet}>
+                <ContextMenuLabel inset>Question Bank</ContextMenuLabel>
+                <ContextMenuSeparator />
+                <ContextMenuRadioItem value="all">All</ContextMenuRadioItem>
+                <ContextMenuRadioItem value="official">Official</ContextMenuRadioItem>
+                <ContextMenuRadioItem value="csub">CSUB</ContextMenuRadioItem>
+                <ContextMenuRadioItem value="05nats">05Nats</ContextMenuRadioItem>
+                <ContextMenuRadioItem value="98nats">98Nats</ContextMenuRadioItem>
+                <ContextMenuRadioItem value="16exchange">16Exchange</ContextMenuRadioItem>
+              </ContextMenuRadioGroup>
               <ContextMenuSeparator />
-              <ContextMenuRadioItem value="all">All</ContextMenuRadioItem>
-              <ContextMenuRadioItem value="official">Official</ContextMenuRadioItem>
-              <ContextMenuRadioItem value="csub">CSUB</ContextMenuRadioItem>
-              <ContextMenuRadioItem value="05nats">05Nats</ContextMenuRadioItem>
-              <ContextMenuRadioItem value="98nats">98Nats</ContextMenuRadioItem>
-              <ContextMenuRadioItem value="16exchange">16Exchange</ContextMenuRadioItem>
-            </ContextMenuRadioGroup>
-            <ContextMenuSeparator />
-            <ContextMenuCheckboxItem 
-              checked={includeBonusQuestions}
-              onCheckedChange={setIncludeBonusQuestions}
+              <ContextMenuCheckboxItem 
+                checked={includeBonusQuestions}
+                onCheckedChange={setIncludeBonusQuestions}
+              >
+                Include Bonus Questions
+              </ContextMenuCheckboxItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem onSelect={() => window.location.href = "mailto:zayan@mit.edu"}>
+                Report a Bug
+              </ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
+        </div>
+
+        {/* Fixed bottom hover card */}
+        <div className="fixed bottom-8 left-4 dark:text-white">
+          <HoverCard>
+            <HoverCardTrigger asChild>
+              <Button variant="link" className="text-lg">@drwsy</Button>
+            </HoverCardTrigger>
+            <HoverCardContent 
+              className="w-80 border-2 border-black/30 dark:border-white/30 rounded-lg !important"
+              align="start"
+              sideOffset={10}
+              style={{ borderRadius: '0.5rem' }}
             >
-              Include Bonus Questions
-            </ContextMenuCheckboxItem>
-            <ContextMenuSeparator />
-            <ContextMenuItem onSelect={() => window.location.href = "mailto:zayan@mit.edu"}>
-              Report a Bug
-            </ContextMenuItem>
-          </ContextMenuContent>
-        </ContextMenu>
+              <div className="flex justify-between space-x-4">
+                <Avatar className="rounded-none w-16 h-16 top-3">
+                  <AvatarImage src="https://avatars.githubusercontent.com/u/170767427?s=400&u=9ce63ad143bed5730a77f010c2dcf61a4c317082&v=4" />
+                  <AvatarFallback>ZI</AvatarFallback>
+                </Avatar>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-semibold dark:text-white">@drwsy</h4>
+                  <p className="text-sm dark:text-white">
+                    scibowl study app – created and maintained by @zxyanislam.
+                  </p>
+                  <div className="flex items-center pt-2">
+                    <CalendarIcon className="mr-2 h-4 w-4 opacity-70 dark:text-white" />{" "}
+                    <span className="text-xs text-muted-foreground dark:text-white">
+                      Updated February 2024
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        </div>
       </motion.div>
+
+      <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
+        <DialogTrigger asChild>
+          <Button 
+            variant="outline" 
+            className="fixed top-6 right-6 z-50 transition-all duration-300 hover:bg-gray-700 hover:text-white active:bg-gray-800"
+          >
+            Log In / Register
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-900 z-[100] rounded-xl overflow-hidden">
+          <DialogTitle className="sr-only">Authentication</DialogTitle>
+          <Card className="border-none shadow-none">
+            <CardHeader>
+              <CardTitle>{isLogin ? "Login" : "Create Account"}</CardTitle>
+              <CardDescription>
+                {isLogin ? "Enter your credentials to log in." : "Fill in your details to create an account."}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Tabs defaultValue={isLogin ? "login" : "register"} onValueChange={(value) => setIsLogin(value === "login")}>
+                <TabsList className="grid w-full grid-cols-2 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+                  <TabsTrigger 
+                    value="login" 
+                    className="transition-all duration-300 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:text-black dark:data-[state=active]:text-white data-[state=active]:shadow-sm rounded-md"
+                  >
+                    Login
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="register" 
+                    className="transition-all duration-300 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900 data-[state=active]:text-black dark:data-[state=active]:text-white data-[state=active]:shadow-sm rounded-md"
+                  >
+                    Register
+                  </TabsTrigger>
+                </TabsList>
+                <AnimatePresence mode="wait">
+                  {isLogin ? (
+                    <motion.div
+                      key="login"
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      exit={{ x: 20, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                    >
+                      <LoginForm />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="register"
+                      initial={{ x: 20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      exit={{ x: -20, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                    >
+                      <RegisterForm />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
