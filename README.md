@@ -31,7 +31,13 @@ That’s it! No complicated setup, no install—just **straight-up Science Bowl 
 
 ## 📷 What It Looks Like  
 
-_(Imagine a cool screenshot here because I’m too lazy to add one right now. Or just go to the site and see for yourself 😆)_  
+![Sci-Buddy Landing Page](https://i.imgur.com/57k0KBn.png)  
+
+**Audio-based questions to simulate real Science Bowl rounds:**  
+![Audio Questions](https://i.imgur.com/57k0KBn.png)  
+
+📢 **Audio-based questions to simulate real Science Bowl rounds:**  
+![Audio Questions](https://i.imgur.com/57k0KBn.png)  
 
 ---
 
@@ -58,9 +64,9 @@ Got ideas? **Let us know!**
 
 ## 💬 Who Made This?  
 
-Sci-Buddy was built by **[@yourusername](https://github.com/yourusername)** because I wanted a **better way to train for Science Bowl**—and figured other people might too. If you have feedback, questions, or just want to talk **about how evil energy metabolism questions are**, hit me up:  
+Sci-Buddy was built by **[@drwoosy](https://github.com/drwoosy)** because I wanted a **better way to train for Science Bowl**—and figured other people might too. If you have feedback, questions, or just want to talk **about how evil energy metabolism questions are**, hit me up:  
 
-📧 Email: **youremail@example.com**  
-🐦 Twitter: [@yourhandle](https://twitter.com/yourhandle)  
+📧 Email: **zayan@mit.edu**  
+📷 Instagram: [@zxyanislam](https://www.instagram.com/zxyanislam/)  
 
 Enjoy, and happy studying! 🚀  
