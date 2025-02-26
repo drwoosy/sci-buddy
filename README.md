@@ -30,14 +30,14 @@ That’s it! No complicated setup, no install—just **straight-up Science Bowl 
 ---
 
 ## 📷 What It Looks Like  
-
+🏠 **This is the **landing page** where you get started:**  
 ![Sci-Buddy Landing Page](https://i.imgur.com/57k0KBn.png)  
 
-**Audio-based questions to simulate real Science Bowl rounds:**  
-![Audio Questions](https://i.imgur.com/57k0KBn.png)  
+✅ **Multiple-choice questions to simulate real Science Bowl rounds:**  
+![Multiple-choice Questions](https://i.imgur.com/fx8h0vJ.png)  
 
-📢 **Audio-based questions to simulate real Science Bowl rounds:**  
-![Audio Questions](https://i.imgur.com/57k0KBn.png)  
+✍️ **Short answer mode—where you **type out** your responses instead of picking an option:**  
+![Short-answer Questions](https://i.imgur.com/8pbrf5E.png)  
 
 ---
 
